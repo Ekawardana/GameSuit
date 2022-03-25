@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suit Jepang</title>
+
+    <!-- Link Bootstrap -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <div id="app" class="bg-warning text-center">
+        <div class="col-12 1.5rem">
+            <div class="summary bg-dark text-white">
+                <h2 class="text-center">MATCH RESULT</h2>
+                <br />
+                <div class="row">
+                    <div class="h4 col-6">Kamu</div>
+                    <div class="h4 col-6">Robot</div>
+                </div>
+                <h1 id="inGame"></h1>
+                <h4 id="result" class="mt-4"></h4>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="game text-center">
+                <div class="option btn btn-success" onclick="pickOption('✋🏻')">
+                    ✋🏻
+                </div>
+                <div class="option btn btn-danger" onclick="pickOption('✌🏻')">
+                    ✌🏻
+                </div>
+                <div class="option btn btn-primary" onclick="pickOption('✊🏻')">
+                    ✊🏻
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class Start {
+            constructor() {
+                this.playerName = "Kamu"
+                this.botName = "Robot AI"
+                this.playerOption;
+                this.winner = ""
+            }
+
+            // Bot
+            get getBotOption() {
+                return this.botOption;
+            }
+            set setBotOption(option) {
+                this.botOption = option;
+            }
+
+            // Player
+            get getPlayerOption() {
+                return this.playerOption;
+            }
+            set setPlayerOption(option) {
+                this.playerOption = option;
+            }
+
+            // BrainBot
+            botBrain() {
+                const option = ["✋🏻", "✊🏻", "✌🏻"];
+                const bot = option[Math.floor(Math.random() * option.length)];
+                return bot;
+            }
+
+            // Kalkulasi Pemenang
+            winCalculation() {
+                if (this.botOption == "✋🏻" && this.playerOption == "✌🏻") {
+                    return this.winner = this.playerName;
+                } else if (this.botOption == "✋🏻" && this.playerOption == "✊🏻") {
+                    return this.winner = this.botName;
+                } else if (this.botOption == "✌🏻" && this.playerOption == "✊🏻") {
+                    return this.winner = this.playerName;
+                } else if (this.botOption == "✌🏻" && this.playerOption == "✋🏻") {
+                    return this.winner = this.botName;
+                } else if (this.botOption == "✊🏻" && this.playerOption == "✋🏻") {
+                    return this.winner = this.playerName;
+                } else if (this.botOption == "✊🏻" && this.playerOption == "✌🏻") {
+                    return this.winner = this.botName;
+                } else {
+                    return this.winner = "SERI";
+                }
+            }
+
+            // Match
+            matchResult() {
+                if (this.winner !== "SERI") {
+                    return `${this.winner} Menang`;
+                } else {
+                    return `WAHH ${this.winner}, Ga Ada Yang Menang😝`;
+                }
+            }
+        }
+        function pickOption(params) {
+            const start = new Start();
+            start.setPlayerOption = params;
+            start.setBotOption = start.botBrain();
+            start.winCalculation();
+
+            // Dom
+            const inGame = document.getElementById("inGame");
+            const result = document.getElementById("result");
+
+            inGame.textContent = `${start.getPlayerOption} VS ${start.getBotOption}`;
+            result.textContent = start.matchResult();
+
+        }
+    </script>
+</body>
+
+</html>
